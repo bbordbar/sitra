@@ -10,6 +10,9 @@ import uk.ac.bham.sitra.Rule;
  * 
  * @author Kyriakos Anastasakis
  * @since 0.2
+ * 
+ * @author John Saxon
+ * @since 0.2.1
  *
  * @see TraceImpl
  * @see TraceInstanceImpl 
@@ -20,11 +23,9 @@ public interface ITrace {
 	/**
 	 * Records a mapping between a source and a target element for a given rule.
 	 */
-	@SuppressWarnings("unchecked")
-	public <S,T> TraceInstance recordMapping(S source, T target, Rule<S, T> r);
+	public <S,T> TraceInstance<S, T> recordMapping(S source, T target, Rule<S, T> r);
 	public <S,T> void recordMapping(TraceInstance<S,T> ti);
-	@SuppressWarnings("unchecked")
-	public List<TraceInstance> getTraceInstances();
+	public List<TraceInstance<?, ?>> getTraceInstances();
 	public boolean getIsEnabled();
 	public void setIsEnabled(boolean enabled);
 	
@@ -50,8 +51,7 @@ public interface ITrace {
 	 * Corresponds to the <b>resolveone</b> of the QVT specification
 	 * applied to a list of source objects and requiring a condition 
 	 */
-	@SuppressWarnings("unchecked")
-	public <S,T> T resolveone(List<S> srclst, Class targetType);
+	public <S,T> T resolveone(List<S> srclst, Class<T> targetType);
 	
 	/**
 	 * Corresponds to the <b>resolve</b> of the QVT specification 
@@ -69,8 +69,7 @@ public interface ITrace {
 	 * where an extra condition is used to constraint the type 
 	 * of target objects returned
 	 */
-	@SuppressWarnings("unchecked")
-	public <S,T> List<T> resolve(S src, Class targetType);
+	public <S,T> List<T> resolve(S src, Class<T> targetType);
 	
 	/**
 	 * Corresponds to the <b>resolve</b> of the QVT specification
@@ -78,8 +77,7 @@ public interface ITrace {
 	 * an extra condition is used to constraint the type 
 	 * of target objects returned  
 	 */
-	@SuppressWarnings("unchecked")
-	public <S,T> List<T> resolve (List<S> srclist, Class targetType);
+	public <S,T> List<T> resolve (List<S> srclist, Class<T> targetType);
 
 	
 	/**
@@ -116,6 +114,5 @@ public interface ITrace {
  	 * @param sourceType Only find traces of sourceType and match them against the targetList. Can be null.
 	 * @return A List of source elements that map to the target
 	 */
-	@SuppressWarnings("unchecked")
-	public <S,T> List<S> resolvein (List<T> targetList, Class sourceType);
+	public <S,T> List<S> resolvein (List<T> targetList, Class<S> sourceType);
 }

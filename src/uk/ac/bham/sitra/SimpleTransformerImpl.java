@@ -15,21 +15,27 @@ import uk.ac.bham.sitra.tracing.ITrace;
  * methods to transform a source model element to a target model element.
  * 
  * 
- *  @author David Akehurst
- *  @author Behzad Bordbar
- *  @author Kyriakos Anastasakis
- *  @version 0.2
- *
+ * @author David Akehurst
+ * @author Behzad Bordbar
+ * @author Kyriakos Anastasakis
+ * 
+ * @author John Saxon
+ * @since 0.2.1
+ * 
+ * @version 0.2.1
  */
 public class SimpleTransformerImpl implements Transformer {
 	
-	@SuppressWarnings("unchecked")
-	public SimpleTransformerImpl(List<Class<? extends Rule>> ruleTypes) {
+	public SimpleTransformerImpl(List<Class<? extends Rule<?, ?>>> ruleTypes) {
 		this.ruleTypes = ruleTypes;
 	}
 	
-	@SuppressWarnings("unchecked")
-	Map<Class<? extends Rule>, Map<Object, Object>> mappings = new HashMap<Class<? extends Rule>, Map<Object, Object>>();
+	public SimpleTransformerImpl(List<Class<? extends Rule<?, ?>>> ruleTypes, ITrace trace) {
+		this(ruleTypes);
+		this.trace = trace;
+	}
+	
+	Map<Class<? extends Rule<?, ?>>, Map<Object, Object>> mappings = new HashMap<Class<? extends Rule<?, ?>>, Map<Object, Object>>();
 	
 	@SuppressWarnings("unchecked")
 	<S, T> Map<S, T> getRuleMappings(Class<? extends Rule<S, T>> rule) {
@@ -65,12 +71,11 @@ public class SimpleTransformerImpl implements Transformer {
 	
 	
 	// --- Transformer ---
-	@SuppressWarnings("unchecked")
-	List<Class<? extends Rule>> ruleTypes;
-	@SuppressWarnings("unchecked")
-	public List<Class<? extends Rule>> getRuleTypes() {
+	List<Class<? extends Rule<?, ?>>> ruleTypes;
+	
+	public List<Class<? extends Rule<?, ?>>> getRuleTypes() {
 		if (this.ruleTypes == null) {
-			this.ruleTypes = new Vector<Class<? extends Rule>>();
+			this.ruleTypes = new Vector<Class<? extends Rule<?, ?>>>();
 		}
 		return this.ruleTypes;
 	}
@@ -80,13 +85,13 @@ public class SimpleTransformerImpl implements Transformer {
 	}
 	
 	@SuppressWarnings("unchecked")
-	List<Rule> getRules(Class<? extends Rule> ruleType) {
-		List<Rule> rules = new Vector<Rule>();
-		for (Class<? extends Rule> rt : getRuleTypes()) {
+	public <S, T> List<Rule<S, T>> getRules(Class<? extends Rule<S, T>> ruleType) {
+		List<Rule<S, T>> rules = new Vector<Rule<S, T>>();
+		for (Class<? extends Rule<?, ?>> rt : getRuleTypes()) {
 			if (ruleType.isAssignableFrom(rt)) {
 				if (!Modifier.isAbstract(rt.getModifiers())) {
 					try {
-						rules.add(rt.newInstance());
+						rules.add((Rule<S, T>) rt.newInstance());
 					} catch (InstantiationException e) {
 						throw new RuntimeException(e);
 					} catch (IllegalAccessException e) {
@@ -98,14 +103,13 @@ public class SimpleTransformerImpl implements Transformer {
 		return rules;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <S, T> T transform(Class<? extends Rule<S, T>> ruleType, S source) throws RuleNotFoundException {
-			List<Rule> rules = getRules(ruleType);			
+			List<Rule<S, T>> rules = getRules(ruleType);			
 			if (rules.isEmpty()) {
 					throw new RuleNotFoundException(source.toString());
 			} else {
 				int classCastsExcs = 0;
-				for (Rule rule : rules) {
+				for (Rule<S, T> rule : rules) {
 					Boolean b = false;
 					try {
 						b = rule.check(source);
@@ -138,13 +142,13 @@ public class SimpleTransformerImpl implements Transformer {
 	
 	@SuppressWarnings("unchecked")
 	public Object transform(Object object) throws RuleNotFoundException {
-		return transform((Class)Rule.class, object);
+		return transform((Class<? extends Rule<Object, Object>>)Rule.class, object);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<? extends Object> transformAll(List<? extends Object> sourceObjects)
 				throws RuleNotFoundException{
-		return transformAll((Class)Rule.class, sourceObjects);
+		return transformAll((Class<? extends Rule<Object, Object>>)Rule.class, sourceObjects);
 	}
 	
 	// ------- Tracing -----
@@ -171,7 +175,9 @@ public class SimpleTransformerImpl implements Transformer {
 	 */
 
 	private <S, T> void recordTrace(S source, T target, Rule<S, T> r) {
-		getTraceInformation().recordMapping(source, target, r);
+		try {
+			getTraceInformation().recordMapping(source, target, r);
+		} catch(NullPointerException e) { }
 	}
 	
 }

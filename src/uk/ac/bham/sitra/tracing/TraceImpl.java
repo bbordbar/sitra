@@ -13,6 +13,9 @@ import uk.ac.bham.sitra.Rule;
  * @author Kyriakos Anastasakis
  * @since 0.2
  * 
+ * @author John Saxon
+ * @since 0.2.1
+ * 
  * @see TraceInstanceImpl
  *
  */
@@ -23,8 +26,7 @@ public class TraceImpl implements ITrace{
 	/**
 	 * A List of {@link TraceInstanceImpl}s that hold the mapping between source and target element instances. 
 	 */
-	@SuppressWarnings("unchecked")
-	protected List<TraceInstance> tis = new ArrayList<TraceInstance>();
+	protected List<TraceInstance<?, ?>> tis = new ArrayList<TraceInstance<?, ?>>();
 	
 	/**
 	 * Whether the Tracing is enabled.
@@ -45,8 +47,7 @@ public class TraceImpl implements ITrace{
 	 * and <i>rule</i>.
 	 * <
 	 */
-	@SuppressWarnings("unchecked")
-	public <S,T> TraceInstance recordMapping(S source, T target, Rule<S, T> r){		
+	public <S,T> TraceInstance<S, T> recordMapping(S source, T target, Rule<S, T> r){		
 		TraceInstance<S,T> ti = new TraceInstanceImpl<S,T>(source,target,r);	
 		recordMapping(ti);
 		return ti;
@@ -72,8 +73,7 @@ public class TraceImpl implements ITrace{
 	 * Returns all the {@link TraceInstanceImpl}s registered so far.
 	 * @return A List of the {@link TraceInstanceImpl}s registered so far
 	 */
-	@SuppressWarnings("unchecked")
-	public List<TraceInstance> getTraceInstances() {
+	public List<TraceInstance<?, ?>> getTraceInstances() {
 		return tis;
 	}
 	
@@ -156,15 +156,15 @@ public class TraceImpl implements ITrace{
 	 * <i>null</i> if the source object has not been generated any target object.    
 	 */
 	@SuppressWarnings("unchecked")
-	public <S,T> T resolveone(List<S> srclst, Class targetType){	
+	public <S,T> T resolveone(List<S> srclst, Class<T> targetType){	
 			
 		for (S source : srclst){
-			for (TraceInstance<S, T> ti : getTraceInstances()){
+			for (TraceInstance<?, ?> ti : getTraceInstances()){
 				if (ti.getSource().equals(source))
 					if (targetType == null)
-						return ti.getTarget();
+						return (T) ti.getTarget();
 					else
-						if (ti.getTarget().getClass().equals(targetType)) return ti.getTarget();
+						if (ti.getTarget().getClass().equals(targetType)) return (T) ti.getTarget();
 			}
 		}
 			// If it reaches here it is null
@@ -182,9 +182,7 @@ public class TraceImpl implements ITrace{
 		return resolve(srclist,null);
 	}
 	
-	
-	@SuppressWarnings("unchecked")
-	public <S,T> List<T> resolve(S src, Class targetType){
+	public <S,T> List<T> resolve(S src, Class<T> targetType){
 		ArrayList<S> srclist = new ArrayList<S>();
 		srclist.add(src);
 		return resolve(srclist,targetType);
@@ -194,16 +192,16 @@ public class TraceImpl implements ITrace{
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public <S,T> List<T> resolve (List<S> srclist, Class targetType){
+	public <S,T> List<T> resolve (List<S> srclist, Class<T> targetType){
 		List<T> l = new ArrayList<T>();
 		
 		for (S src: srclist){
-			for (TraceInstance<S, T> ti: getTraceInstances()){
+			for (TraceInstance<?, ?> ti: getTraceInstances()){
 				if ((ti.getSource().equals(src)))
 					if (targetType==null) 
-						l.add(ti.getTarget());
+						l.add((T) ti.getTarget());
 					else 
-						if (ti.getTarget().getClass().equals(targetType)) l.add(ti.getTarget());
+						if (ti.getTarget().getClass().equals(targetType)) l.add((T) ti.getTarget());
 			}
 		}				
 		
@@ -215,15 +213,14 @@ public class TraceImpl implements ITrace{
 	// TODO Implement resolveIn methods!
 	
 	
-	@SuppressWarnings("unchecked")
 	public String toString(){
 		StringBuffer sb = new StringBuffer();
 		
-		for (TraceInstance ti : getTraceInstances()){
+		for (TraceInstance<?, ?> ti : getTraceInstances()){
 			
-			sb.append("SOURCE: ").append(
-					ti.getSource()).append("  ").append(" =====> ")
-				.append(ti.getTarget()).append("  RULE: ").append(ti.getRule())
+			sb.append("SOURCE:").append(NEW_LINE).append(
+					ti.getSource()).append(NEW_LINE).append("DESTINATION:").append(NEW_LINE)
+				.append(ti.getTarget()).append(NEW_LINE).append("USING RULE:").append(NEW_LINE).append(ti.getRule())
 			.append(NEW_LINE);
 		}
 		
@@ -240,7 +237,7 @@ public class TraceImpl implements ITrace{
 	public <T> List<T> resolve(Class<? extends T> targetType) {
 		List<T> arrList = new ArrayList<T>(); 
 		
-		for (TraceInstance ti : getTraceInstances()){
+		for (TraceInstance<?, ?> ti : getTraceInstances()){
 			if (ti.getTarget().getClass().equals(targetType)){				
 				arrList.add((T) ti.getTarget());
 			}
@@ -253,16 +250,16 @@ public class TraceImpl implements ITrace{
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public <S,T> List<S> resolvein (List<T> targetList, Class sourceType){
+	public <S,T> List<S> resolvein (List<T> targetList, Class<S> sourceType){
 		List<S> l = new ArrayList<S>();
 		
 		for (T tar: targetList){
-			for (TraceInstance<S, T> ti: getTraceInstances()){
+			for (TraceInstance<?, ?> ti: getTraceInstances()){
 				if ((ti.getTarget().equals(tar)))
 					if (sourceType==null) 
-						l.add(ti.getSource());
+						l.add((S) ti.getSource());
 					else 
-						if (ti.getTarget().getClass().equals(sourceType)) l.add(ti.getSource());
+						if (ti.getTarget().getClass().equals(sourceType)) l.add((S) ti.getSource());
 			}
 		}				
 		
