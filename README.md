@@ -1,7 +1,7 @@
 SiTra
 =====
 
-SiTra[1] is a simple Java library for supporting a programming approach to writing
+[SiTra] [1] is a simple Java library for supporting a programming approach to writing
 transformations aiming to, firstly use Java for writing transformations, and
 secondly, to provide a minimal framework for the execution of transformations.
 SiTra consists of two interfaces and a class that implements a transformation
