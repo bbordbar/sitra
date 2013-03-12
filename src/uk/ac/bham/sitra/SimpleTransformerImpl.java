@@ -142,13 +142,15 @@ public class SimpleTransformerImpl implements Transformer {
 	
 	@SuppressWarnings("unchecked")
 	public Object transform(Object object) throws RuleNotFoundException {
-		return transform((Class<? extends Rule<Object, Object>>)Rule.class, object);
+    Class<Rule<Object, Object>> ruleClass = (Class<Rule<Object, Object>>)(Class<?>) Rule.class;
+		return transform(ruleClass, object);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<? extends Object> transformAll(List<? extends Object> sourceObjects)
 				throws RuleNotFoundException{
-		return transformAll((Class<? extends Rule<Object, Object>>)Rule.class, sourceObjects);
+    Class<Rule<Object, Object>> ruleClass = (Class<Rule<Object, Object>>)(Class<?>) Rule.class;
+		return transformAll(ruleClass, sourceObjects);
 	}
 	
 	// ------- Tracing -----

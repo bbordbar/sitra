@@ -220,7 +220,7 @@ public class TraceImpl implements ITrace{
 			
 			sb.append("SOURCE:").append(NEW_LINE).append(
 					ti.getSource()).append(NEW_LINE).append("DESTINATION:").append(NEW_LINE)
-				.append(ti.getTarget()).append(NEW_LINE).append("USING RULE:").append(NEW_LINE).append(ti.getRule())
+				.append(ti.getTarget()).append(NEW_LINE).append("USING RULE:").append(NEW_LINE).append(ti.getRule().getClass().getName())
 			.append(NEW_LINE);
 		}
 		
