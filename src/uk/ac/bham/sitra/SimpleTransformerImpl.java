@@ -117,7 +117,7 @@ public class SimpleTransformerImpl implements Transformer {
 						classCastsExcs++;
 					}
 					if (b) {
-						return applyRule((Rule<S, T>) rule, source);
+						return applyRule(rule, source);
 					}
 				}
 				if (classCastsExcs == rules.size()) {
