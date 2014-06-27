@@ -2,7 +2,7 @@
 layout: default
 title: Downloads
 ---
-### SiTra downloads
+## SiTra downloads
 Download a copy of [SiTra Version 3.0][v3]. Import the zip file into an IDE
 such as Eclipse and start.
 

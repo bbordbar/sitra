@@ -1,5 +1,6 @@
 ---
 layout: default
+title: SiTra in Five Minutes with EMF
 ---
 ## The Five Minutes SiTra tutorial with EMF {#emffiveminutes}
 
@@ -94,7 +95,9 @@ Spend some time and explore the auto-generated code and the created POJOs.
 Produce a separate package, such as *uk.ac.bham.cs*, for your transformation
 files.  The following code uses the produced factories for making source
 objects.
+
 <pre data-src="./fiveminutesfiles/emf/TestRules.java">Generating Objects via factories </pre>
+
 Run the above program to print the chapters and their attributes.
 
 ### Running the  transformations 
@@ -117,8 +120,11 @@ New version of BookToPulication</pre>
 ### Executing the transformation
 Similar to [Five Minutes Tutorial](./fiveminutes.html) we can run the
 transformation.
+
 <pre data-src="./fiveminutesfiles/TestRules.java">Executing transformation</pre>
+
 Running the above will produce 
+
 <pre data-src="./fiveminutesfiles/resulte.log">produced publication</pre>
 
 

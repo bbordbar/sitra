@@ -1,8 +1,11 @@
 ---
 layout: default
+title: Tutorials
 ---
-## Tutorials 
-### Contents ### {#cont}
+## Tutorials
+
+### Contents
+
 * [A five minutes tutorial](./fiveminutes.html)
 * [The five minutes tutorial with EMF](./emffiveminutes.html)
 <!-- * [Second short tutorial (An ATL example)](./secondshort.html) -->

@@ -8,8 +8,9 @@ transformations, and secondly, to provide a minimal framework for the execution
 of transformations. SiTra consists of two interfaces and a class that
 implements a transformation algorithm. The aim is to facilitate a style of
 programming that incorporates the concept of transformation rules. The two
-interfaces are as follows and are described below.  <pre
-data-src="sitra.java">Rule and Transformer Signature</pre>
+interfaces are as follows and are described below. 
+
+<pre data-src="sitra.java">Rule and Transformer Signature</pre>
 
 ### Description ###
 **Rule interface:** A class that implements this interface should be written
