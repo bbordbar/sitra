@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Bootstrap -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/css/prism.css" rel="stylesheet" />
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			<!--
+				body {
+					color: #555;
+					font-weight: 200;
+				}
+
+				h1, h2, h3, h4, h5, h6 {
+					color: #444;
+					font-weight: 300;
+				}
+
+				.head {
+					margin-top: 40px;
+					text-align: justify;
+				}
+
+				.path {
+					color: #AAA;
+				}
+
+				#news {
+					font-size: 90%;
+				}
+
+				#news time {
+					display: block;
+					margin-bottom: 5px;
+					font-style: italic;
+				}
+
+				img {
+					margin-left: auto;
+					margin-right: auto;
+					max-width: 90%;
+					display: block;
+				}
+			-->
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<!-- body -->
+						<div class="col-md-9">
+							<!-- header -->
+							<div class="row head">
+								<div class="col-md-12">
+									<h1>Simple Transformer (SiTra)</h1>
+								</div>
+							</div>
+							<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Home</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><a href="/downloads.html">Downloads</a></li>
+				<li><a href="/tutorials.html">Tutorials</a></li>
+				<li><a href="/tracing.html">Tracing</a></li>
+				<li><a href="/publications.html">Publications</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div>
+</nav>
+
+							<hr />
+							<!-- content -->
+							<div class="row">
+								<div class="col-md-12">
+									<h2 id="fiveminutes">A Five Minutes SiTra tutorial</h2>
+
+<p>The following example is borrowed from tutorial used in an early version of ATLAS: Consider a model involving a <em>Book</em> that has a number of <em>Chapters</em> as depicted in the following figure.</p>
+
+<p><img src="./fiveminutesfiles/5min_fig1.png" alt="class diagram of the example" /></p>
+
+<p>We wish to write a model transform to convert models of <em>Books</em> to produce <em>Publication</em> objects which satisfy the following.</p>
+
+<ul>
+<li>The <em>title</em> of a produced <em>Publication</em> is the same as the <em>title</em> the <em>Book</em>.</li>
+
+<li>List of authors (<em>authorsList</em>) of the Publication is produced from combining the list of authors of the chapters of the book.</li>
+
+<li>The total number of Pages (<em>noOfPages</em>) of a produced Publication is the sum of all number of pages of the chapters of the book.</li>
+</ul>
+
+<h4 id="step_1_setting_up">Step 1: Setting up</h4>
+
+<p>Download latest version of <a href="./downloads.html">SiTra</a>. If you use an IDE import the packages to your IDE. We make use of <a href="http://www.eclipse.org/">Eclipse IDE</a>.</p>
+
+<h4 id="step_2_create_a_metamodel_of_the_source">Step 2: Create a metamodel of the source</h4>
+
+<p>We will create Plain Old Java Objects (POJO) for representing metamodel of the <em>Book</em> and <em>Publication</em>. Create a <em>Chapter.java</em> as follows to model chapters of the book.</p>
+<pre data-src='./fiveminutesfiles/Chapter.java'>Metamodel of Chapter as a POJO</pre>
+<p>Similarly, create a <em>Book.java</em> as follows, in which chapters are put together as an <em>ArrayList</em>.</p>
+<pre data-src='./fiveminutesfiles/Book.java'>Metamodel of Book </pre>
+<p>We have added a constructor to the end so that <em>Book</em> objects can be produced. In this elementary tutorial we produce the metamodels manually as POJOs.</p>
+
+<h4 id="step_3_create_a_metamodel_of_the_destination">Step 3: Create a metamodel of the destination</h4>
+
+<p>Metamodel of the destination can be produced in a similar form.</p>
+<pre data-src='./fiveminutesfiles/Publication.java'>Metamodel of Publication </pre>
+<p>If we start the design of the metamodel in graphical notations such as UML class diagrams, EMF can be used to automatically produce the metamodels and Factory design Pattern for producing the objects.</p>
+
+<h4 id="step_4_transformation_of_book_to_publication">Step 4: Transformation of Book to Publication</h4>
+
+<p>Now we write our first model transformation. The interface <em>Rule</em> of the SiTra package is extended. So three methods must be implemented. <em>check</em> method will return true if the transformer come across a Book object, in which case the <em>build</em> method is invoked. The method <em>build</em> produces a <em>Publication</em> and sets its attributes. <em>setProperties</em> method is not used in here.</p>
+<pre data-src='./fiveminutesfiles/BookToPublication.java'>Transformation rule for mapping Book to Publication</pre>
+<h3 id="final_step_running_the_transformation">Final step: running the transformation</h3>
+
+<p>We will produce some source objects that comply to the metamodel of the Book, apply BookToPublication transformation to produce a Publication object.</p>
+<pre data-src='./fiveminutesfiles/testingrules.java'>Testing the transformation</pre>
+<p>The program will produce the following</p>
+<pre data-src='./fiveminutesfiles/result.log'>running the program</pre>
+								</div>
+							</div>
+						</div>
+						<!-- news -->
+						<div class="col-md-3">
+							<div class="row head" id="news">
+								<div class="col-md-12">
+									<h2>News</h2>
+
+	<time datetime="2014-06-27T00:00:00+01:00">27 June 2014</time>
+	<p>Welcome to our new site!</p>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div class="row" id="footer">
+						<div class="span8">
+							<p style="text-align: center; font-size: 10px;">© 2014</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/prism.js"></script>
+	</body>
+</html>

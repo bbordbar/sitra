@@ -1,0 +1,5 @@
+<h2>News</h2>
+{% for post in site.posts limit: 10 %}
+	<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_long_string }}</time>
+	{{ post.content }}
+{% endfor %}

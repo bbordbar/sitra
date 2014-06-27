@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Bootstrap -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/css/prism.css" rel="stylesheet" />
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			<!--
+				body {
+					color: #555;
+					font-weight: 200;
+				}
+
+				h1, h2, h3, h4, h5, h6 {
+					color: #444;
+					font-weight: 300;
+				}
+
+				.head {
+					margin-top: 40px;
+					text-align: justify;
+				}
+
+				.path {
+					color: #AAA;
+				}
+
+				#news {
+					font-size: 90%;
+				}
+
+				#news time {
+					display: block;
+					margin-bottom: 5px;
+					font-style: italic;
+				}
+
+				img {
+					margin-left: auto;
+					margin-right: auto;
+					max-width: 90%;
+					display: block;
+				}
+			-->
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<!-- body -->
+						<div class="col-md-9">
+							<!-- header -->
+							<div class="row head">
+								<div class="col-md-12">
+									<h1>Simple Transformer (SiTra)</h1>
+								</div>
+							</div>
+							<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Home</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><a href="/downloads.html">Downloads</a></li>
+				<li><a href="/tutorials.html">Tutorials</a></li>
+				<li><a href="/tracing.html">Tracing</a></li>
+				<li><a href="/publications.html">Publications</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div>
+</nav>
+
+							<hr />
+							<!-- content -->
+							<div class="row">
+								<div class="col-md-12">
+									<h2 id="emffiveminutes">The Five Minutes SiTra tutorial with EMF</h2>
+
+<p>In the <a href="./fiveminutes.html">Five Minutes Tutorial</a>, the metamodels of the source and destination were created manually as Plain Old Java Objects (POJOs). Advocates of high-level modelling may produce the metamodels in UML class diagrams for documentation and better communication. In such cases, we can create POJOs and factories to generate objects used in SiTra transformations <em>automatically</em>.</p>
+
+<p><a href="http://www.eclipse.org/modeling/emf/" title="EMF website on Eclipse.org">Eclipse Modeling Framework</a> (EMF) is a well supported modelling framework for code generation. EMF has a wide range of capabilities. For example, we can use EMF to convert models between Java code, UML models, Ecore and XSD documents. See the official <a href="http://www.eclipse.org/modeling/emf/" title="EMF website on Eclipse.org">EMF website</a> for links to tutorials and books about EMF. The <em>aim</em> of this tutorial is to explain how to</p>
+
+<ol>
+<li>Create Ecore models to produce a representation of the metamodels in class diagram format,</li>
+
+<li>automatically generate java code from the diagrams, and finally</li>
+
+<li>write a transformation to repeat the task carried out in <a href="./fiveminutes.html">Five Minutes Tutorial</a>.</li>
+</ol>
+
+<p><strong>Download</strong> Eclipse Modelling Tool from the <a href="http://www.eclipse.org" title="Eclipse site">Eclipse website</a>. Alternatively, you can install Eclipse Modelling Tool packages in your current installation of Eclipse. There are a number of good tutorials on EMF, among them:</p>
+
+<ul>
+<li><a href="http://www.vogella.com/tutorials/EclipseEMF/article.html">Eclipse Modeling Framework (EMF) - Tutorial by Lars Vogel</a> and</li>
+
+<li><a href="http://eclipsesource.com/blogs/tutorials/emf-tutorial/">What every Eclipse developer should know about EMF by Maximilian Koegel</a></li>
+</ul>
+
+<p>The following is a short description of the steps involved in the creation of the Ecore model for the <a href="./fiveminutes.html">Five Minutes Tutorial</a>, use the above tutorials as cheatsheets to fill in the gaps.</p>
+
+<h3 id="producing_ecore_model_of_metamodels">Producing Ecore model of metamodels</h3>
+
+<ul>
+<li>
+<p>After downloading and installing Eclipse Modelling Tool, create a project by going to <em>File</em> → <em>new</em> → <em>Ecore Tools Project</em>. Call your project <em>FiveMinutes</em>.</p>
+</li>
+
+<li>
+<p>Right-click on FiveMinutes in Project Explorer pane and then <em>file</em> → <em>new</em> → <em>ecore diagram</em>. Call the ecore model <em>metamodels</em>. You should see the following Palette which has drag and drop components for producing classes (EClass), attributes (EAttribute), …</p>
+</li>
+</ul>
+
+<p><img src="./fiveminutesfiles/palette.png" alt="palette" /></p>
+
+<ul>
+<li>
+<p>Click on EClass on Palette and then click on the drawing pane to produce three classes. Name them <em>Book</em>, <em>Chapter</em> and <em>Publication</em>. You can modify the name of the classes from <em>Properties</em> pane.</p>
+</li>
+
+<li>
+<p>Right click on EAttribute in the <em>Pallete</em> and then click on the attribute fields of the class <em>Book</em>. Go to <em>Properties</em>. Change <em>Name</em> to <em>title</em>, <em>Lower Bound</em> to 1 and <em>EType</em> to <em>EString [java.lang.String]</em>. Setting the lower bound and upper bound to 1 enforces the model to have exactly one <em>title</em> attribute. Also add <em>title</em> attribute to both <em>Chapter</em> and <em>Publication</em>. Also add <em>noOfPages</em> attribute of type <em>EInt [int]</em> with Lower Bound to <em>Chapter</em> and <em>Publication</em>.</p>
+</li>
+
+<li>
+<p>add the attribute <em>authorsList</em> of type EString to Chapter. Set the Lower Bound to 1 and the Upper Bound to <em>. This will make sure that the</em>authorsList* is a collection of String. In the <em>Properties</em> pane click on the <em>Advanced</em> will bring all setting of the <em>authorsList</em>. Make sure the parameter <em>Unique</em> is set to <em>true</em>. This will ensure that the name of authors are unique. The parameter <em>Upper Bound</em> is set to -1, which is the same as upper multiplicity *. As a result, <em>authorsList</em> will be a set of Strings. Similarly add the attribute <em>authorsList</em> to <em>Publication</em>.</p>
+</li>
+
+<li>
+<p>Click on <em>EReference</em> to produce an <em>association</em> from <em>Book</em> to <em>Chapter</em>. In <em>Properties</em> pane name the <em>EReference</em> to <em>chapters</em>, modify Lower Bound to 1 and Upper Bound to -1 to ensure that the association has the multiplicity of 1…* at the side that it connects to <em>Chapter</em>. At the end, your drawing pane should look like the following.</p>
+</li>
+</ul>
+
+<p><img src="./fiveminutesfiles/p2.png" alt="Final ecore model" /></p>
+
+<h3 id="automated_code_generation_from_the_ecore_models">Automated code generation from the Ecore models</h3>
+
+<p>We shall start by creating an EMF Generator model.</p>
+
+<ul>
+<li>locate the file <em>metamodel.ecore</em> in the <em>Project Explorer</em> pane, right click <em>New</em> → <em>other</em> → <em>EMF Generator Model</em>. The file name is <em>metamodels.genmodel</em>. Click <em>Next</em> and you will be prompted to <em>Select a Model Importer</em>. Select <em>Ecore model</em>, <em>load</em> and click through to <em>Next</em> and <em>Finish</em>. In your <em>Project Explorer</em> pane you will end up with a new tree <em>meamodel.genmodel</em>. Click on it a new pane opens. In the newly opened pane right click on <em>Metamodels</em> and choose <em>Generate Model Code</em>. A directory <em>src</em> with two subfolder containing interfaces and their implementations will be created as follows.</li>
+</ul>
+
+<p><img src="./fiveminutesfiles/p3.png" alt="Directory view of generated code" /></p>
+
+<p>Spend some time and explore the auto-generated code and the created POJOs. Produce a separate package, such as <em>uk.ac.bham.cs</em>, for your transformation files. The following code uses the produced factories for making source objects.</p>
+<pre data-src='./fiveminutesfiles/emf/TestRules.java'>Generating Objects via factories </pre>
+<p>Run the above program to print the chapters and their attributes.</p>
+
+<h3 id="running_the_transformations">Running the transformations</h3>
+
+<p>The produced objects can now be used within a SiTra transformation. For a description of the transformation see <a href="./fiveminutes.html">Five Minutes Tutorial</a>. Following the tutorial download the latest version of the SiTra and import it to your IDE. <em>BookToPublication</em> Transformation is slightly different from the version in the <a href="./fiveminutes.html">Five Minutes Tutorial</a>, Firstly, created factories must be used to produce the destination objects. Secondly, the auto-generated code provides a set of <em>get</em> Methods that return instances of the variables representing the attributes. This is a bit different from using a <em>set</em> method in the <a href="./fiveminutes.html">Five Minutes Tutorial</a>. For further information about the auto-generated code and the reason behind the style of implementation see the EMF website or the above tutorials.</p>
+<pre data-src='./fiveminutesfiles/emf/BookToPublication.java'>
+New version of BookToPulication</pre>
+<h3 id="executing_the_transformation">Executing the transformation</h3>
+
+<p>Similar to <a href="./fiveminutes.html">Five Minutes Tutorial</a> we can run the transformation.</p>
+<pre data-src='./fiveminutesfiles/TestRules.java'>Executing transformation</pre>
+<p>Running the above will produce</p>
+<pre data-src='./fiveminutesfiles/resulte.log'>produced publication</pre>
+								</div>
+							</div>
+						</div>
+						<!-- news -->
+						<div class="col-md-3">
+							<div class="row head" id="news">
+								<div class="col-md-12">
+									<h2>News</h2>
+
+	<time datetime="2014-06-27T00:00:00+01:00">27 June 2014</time>
+	<p>Welcome to our new site!</p>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div class="row" id="footer">
+						<div class="span8">
+							<p style="text-align: center; font-size: 10px;">© 2014</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/prism.js"></script>
+	</body>
+</html>

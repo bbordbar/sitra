@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>{{ page.title }}</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Bootstrap -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/css/prism.css" rel="stylesheet" />
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<style type="text/css">
+			<!--
+				body {
+					color: #555;
+					font-weight: 200;
+				}
+
+				h1, h2, h3, h4, h5, h6 {
+					color: #444;
+					font-weight: 300;
+				}
+
+				.head {
+					margin-top: 40px;
+					text-align: justify;
+				}
+
+				.path {
+					color: #AAA;
+				}
+
+				#news {
+					font-size: 90%;
+				}
+
+				#news time {
+					display: block;
+					margin-bottom: 5px;
+					font-style: italic;
+				}
+
+				img {
+					margin-left: auto;
+					margin-right: auto;
+					max-width: 90%;
+					display: block;
+				}
+			-->
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<!-- body -->
+						<div class="col-md-9">
+							<!-- header -->
+							<div class="row head">
+								<div class="col-md-12">
+									<h1>Simple Transformer (SiTra)</h1>
+								</div>
+							</div>
+							{% include navigation.html %}
+							<hr />
+							<!-- content -->
+							<div class="row">
+								<div class="col-md-12">
+									{{ content }}
+								</div>
+							</div>
+						</div>
+						<!-- news -->
+						<div class="col-md-3">
+							<div class="row head" id="news">
+								<div class="col-md-12">
+									{% include feed.html %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr />
+					<div class="row" id="footer">
+						<div class="span8">
+							<p style="text-align: center; font-size: 10px;">© 2014</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/prism.js"></script>
+	</body>
+</html>
