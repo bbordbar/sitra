@@ -2,88 +2,87 @@ package uk.ac.bham.sitra;
 
 import java.util.List;
 
-import uk.ac.bham.sitra.tracing.ITrace;
-
+import uk.ac.bham.sitra.Rule;
 
 /**
- * <b>Implementations should use this interface to carry out 
- * the logic of how the transformation rules are used. SiTra currently
- * provides a simple implementation 
- * {@link SimpleTransformerImpl}, which should be enough for the needs of most    
- * transformations.
+ * <p>
+ * Implementations should use this interface to define the logic regarding how
+ * the transformation rules are used.
+ * </p>
+ * <p>
+ * SiTra comes with with two implementations
+ * {@link uk.ac.bham.cs.m2m.sitra.SimpleTransformer} and
+ * {@link uk.ac.bham.cs.m2m.sitra.SimpleTraceableTransformer}, these should be
+ * enough for most transformations.
+ * </p>
  * 
+ * @author John T. Saxon
  * @author David Akehurst
  * @author Behzad Bordbar
- * @version 0.2
- * @see SimpleTransformerImpl
- *
+ * 
+ * @see uk.ac.bham.cs.m2m.sitra.SimpleTransformer
+ * @see uk.ac.bham.cs.m2m.sitra.SimpleTraceableTransformer
+ * 
  */
 public interface Transformer {
 	/**
-	 * <p>Implementation should transform a source Object to a target Object. 
-	 * @param object The source object to transform.
-	 * @throws RuleNotFoundException An Exception if no rule can be found to transform the 
-	 * source object to the target object.
+	 * <p>
+	 * Return a target object for a given source.
+	 * </p>
+	 * 
+	 * <p>
+	 * The type of target will depend on the order of rules present within the
+	 * Transformer (@see Transformer.addRuleType).
+	 * </p>
+	 * 
+	 * @param source
+	 *            The source for transformation.
 	 * @return The generated target object.
 	 */
-	Object transform(Object object) throws RuleNotFoundException;
-	
-	/**
-	 * <p> Implementations should transform a list of source objects
-	 *  to a list of target objects using the registered transformation rules.
-	 *  
-	 * @param sourceObjects The list of source objects to transform.
-	 * @throws RuleNotFoundException An Exception if no rule can be found to transform the 
-	 * source object to the target object.
-	 * @return A list of generated target objects.
-	 */
-	List<? extends Object> transformAll(List<? extends Object> sourceObjects) throws RuleNotFoundException;
-	
-	/**
-	 * <p> A type safe version of the Transform method. It is used 
-	 * to transform a <code>source</code> object to a target object
-	 * using a specific {@link Rule} implementation.  
-	 * 
-	 * @param <S> The type of the source object.
-	 * @param <T> The type of the target object.
-	 * 
-	 * @param ruleClass The class of an implementation of the rule used to transform 
-	 * the source object to the target object. 
-	 * @param source The source object to transform.
-	 * @throws RuleNotFoundException An Exception if no rule can be found to transform the 
-	 * source object to the target object.
-	 * @return The generated target object.
-	 */
-	<S, T> T transform(Class<? extends Rule<S, T>> ruleClass, S source) throws RuleNotFoundException;
-	
-	/**
-	 * <p>It is used to transform a list of <code>source</code> object
-	 * to a list of target objects using a specific {@link Rule} implementation.
-	 * 
-	 * @param <S>  The type of the source objects.
-	 * @param <T> The type of the target objects.
-	 * @param ruleClass The class of an implementation of the rule used to transform 
-	 * the source objects to the targets object. 
-	 * @param element A list of the source objects to transform.
-	 * @throws RuleNotFoundException An Exception if no rule can be found to transform the 
-	 * source object to the target object.
-	 * @return A list of the generated target objects.
-	 */
-	<S, T> List<? extends T> transformAll(Class<? extends Rule<S, T>> ruleClass, List<? extends S> element) throws RuleNotFoundException;
-	
-	/**
-	 * <p>Used to add a rule implementation in the transformer.
-	 * 
-	 * @param <S> The type of the source object the rule maps.
-	 * @param <T> The type of the target object the rule maps.
-	 * @param ruleType The class of the rule.
-	 */
-	<S, T> void addRuleType(Class<? extends Rule<S,T>> ruleType);
-	
-	// ------- Tracing -----
+	public <S, T> T transform(final S source);
 
 	/**
-	 * @return The trace information for the execution.
+	 * <p>
+	 * Return a lost of target objects for a list of given source objects.
+	 * </p>
+	 * 
+	 * <p>
+	 * The type of target will depend on the order of rules present within the
+	 * Transformer (@see Transformer.addRuleType).
+	 * </p>
+	 * 
+	 * @param source
+	 *            A list of sources for transformation.
+	 * @return The generated list of target objects.
 	 */
-	ITrace getTraceInformation();
+	public <S, T> List<T> transformAll(final List<S> source);
+
+	/**
+	 * 
+	 * @param source
+	 *            The source for transformation.
+	 * @param rule
+	 *            The specific rule to use for the transformation.
+	 * @return The generated target object.
+	 */
+	public <S, T> T transform(final Class<? extends Rule<S, T>> rule,
+			final S source);
+
+	/**
+	 * 
+	 * @param source
+	 *            A list of sources for transformation.
+	 * @param rule
+	 *            The specific rule to use for the transformation.
+	 * @return The generated list of target objects.
+	 */
+	public <S, T> List<T> transformAll(final Class<? extends Rule<S, T>> rule,
+			final List<S> source);
+
+	/**
+	 * 
+	 * @param ruleType
+	 *            The rule to add to the transformer.
+	 */
+	public <S, T> void addRuleType(final Class<? extends Rule<S, T>> ruleType);
 }
