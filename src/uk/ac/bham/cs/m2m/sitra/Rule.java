@@ -45,11 +45,6 @@ public abstract class Rule<S, T> implements uk.ac.bham.sitra.Rule<S, T> {
 			}
 
 			@Override
-			public void bind(T target, S source, Transformer transformer) {
-				rule.setProperties(target, source, transformer);
-			}
-
-			@Override
 			@SuppressWarnings("unchecked")
 			public Class<? extends Rule<S, T>> ruleClass() {
 				return (Class<? extends Rule<S, T>>) rule.getClass();
@@ -71,12 +66,6 @@ public abstract class Rule<S, T> implements uk.ac.bham.sitra.Rule<S, T> {
 		return (Class<? extends Rule<S, T>>) this.getClass();
 	}
 
-	@Override
-	@Deprecated
-	public T build(final S source, final Transformer transformer) {
-		return this.instantiate(source, transformer);
-	}
-
 	/**
 	 * <p>
 	 * Renamed to suit the rest of the MDD world.
@@ -84,7 +73,7 @@ public abstract class Rule<S, T> implements uk.ac.bham.sitra.Rule<S, T> {
 	 * 
 	 * @see uk.ac.bham.sitra.Rule#build(Object, Transformer)
 	 */
-	public T instantiate(final S source, final Transformer transformer) {
+	public T build(final S source, final Transformer transformer) {
 		T _createV = null;
 		Class<T> type = Rule._T(this.ruleClass());
 		try {
@@ -189,21 +178,10 @@ public abstract class Rule<S, T> implements uk.ac.bham.sitra.Rule<S, T> {
 
 		return null;
 	}
-
-	/**
-	 * <p>
-	 * Renamed to suit the rest of the MDD world.
-	 * <p>
-	 * 
-	 * @see uk.ac.bham.sitra.Rule#setProperties(Object, Object, Transformer)
-	 */
-	public abstract void bind(final T target, final S source,
-			final Transformer transformer);
-
-	@Deprecated
+	
 	@Override
 	public void setProperties(final T target, final S source,
 			final Transformer transformer) {
-		this.bind(target, source, transformer);
+		
 	}
 }
