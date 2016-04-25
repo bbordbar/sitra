@@ -9,4 +9,4 @@ algorithm. The aim is to facilitate a style of programming that incorporates the
 concept of transformation rules. The two interfaces are as follows and are
 described below. 
 
-  [1]: http://www.cs.bham.ac.uk/~bxb/Sitra/index.html "SiTra Homepage"
+  [1]: http://bbordbar.github.io/sitra/ "SiTra Homepage"
